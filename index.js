@@ -64,7 +64,7 @@ app.post("/create", async (req, res) => {
 
           //SAVE newURL
           await newUrl.save();
-          res.json(newUrl);
+          res.status(200).json(newUrl);
           break;
         } else {
           res.status(400).json({
