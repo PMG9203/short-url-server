@@ -21,6 +21,14 @@ const Url = mongoose.model("Url", {
   counter: { type: Number }
 });
 
+const isAnUrl = str => {
+  const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  if (pattern.test(str)) {
+    return true;
+  }
+  return false;
+};
+
 // CREATE URL OBJECT
 
 app.post("/create", async (req, res) => {
@@ -29,15 +37,6 @@ app.post("/create", async (req, res) => {
     const longUrl = req.body.longUrl;
 
     // VERIFY IF IS A VALID URL
-
-    const isAnUrl = str => {
-      const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-      if (pattern.test(str)) {
-        return true;
-      }
-
-      return false;
-    };
 
     if (isAnUrl(longUrl) === true) {
       // SEARCH IF URL EXIST IN BD
