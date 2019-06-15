@@ -7,9 +7,12 @@ const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/short-url-app", {
-  useNewUrlParser: true
-});
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/short-url-app",
+  {
+    useNewUrlParser: true
+  }
+);
 app.use(cors());
 
 // CREATE MODEL URL OBJECT
@@ -97,6 +100,6 @@ app.get("/", async (req, res) => {
 
 const PORT = 3001;
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log("Server started on port: " + PORT);
 });
