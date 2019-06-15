@@ -52,8 +52,7 @@ app.post("/create", async (req, res) => {
 
           // CREATE shortUrl
           const shortUrl =
-            "https://short-url-PIERRE-MARIE-GILLERON.herokuapp.com/" +
-            randomString;
+            "https://short-url-pm-gilleron.herokuapp.com/" + randomString;
 
           // CREATE NEW Url
           const newUrl = new Url({
