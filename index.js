@@ -7,9 +7,12 @@ const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/short-url-app", {
-  useNewUrlParser: true
-});
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/short-url-app",
+  {
+    useNewUrlParser: true
+  }
+);
 app.use(cors());
 
 // CREATE MODEL URL OBJECT
@@ -21,6 +24,14 @@ const Url = mongoose.model("Url", {
   counter: { type: Number }
 });
 
+const isAnUrl = str => {
+  const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  if (pattern.test(str)) {
+    return true;
+  }
+  return false;
+};
+
 // CREATE URL OBJECT
 
 app.post("/create", async (req, res) => {
@@ -29,17 +40,8 @@ app.post("/create", async (req, res) => {
     const longUrl = req.body.longUrl;
 
     // VERIFY IF IS A VALID URL
-
-    const isAnUrl = str => {
-      const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-      if (pattern.test(str)) {
-        return true;
-      }
-
-      return false;
-    };
-
-    if (isAnUrl(longUrl) === true) {
+    const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    if (pattern.test(longUrl)) {
       // SEARCH IF URL EXIST IN BD
       for (let i = 0; i < Url.length; i++) {
         const existingUrl = await Url.findOne({ longUrl: longUrl });
@@ -64,12 +66,14 @@ app.post("/create", async (req, res) => {
           //SAVE newURL
           await newUrl.save();
           res.json(newUrl);
+          break;
         } else {
           res.status(400).json({
             error: {
               message: "Url already exists"
             }
           });
+          break;
         }
       }
     } else {
@@ -96,6 +100,6 @@ app.get("/", async (req, res) => {
 
 const PORT = 3001;
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log("Server started on port: " + PORT);
 });
