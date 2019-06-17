@@ -110,7 +110,7 @@ app.post("/update", async (req, res) => {
     // await urlToRedirect.save();
     // return res.redirect(307, req.body.longUrl);
     // return res.json("ok");
-    return res.redirect((status = 302), "http://prod03.com");
+    return res.redirect((status = 302), "https://prod03.com");
   } catch (error) {
     return res.status(400).json({ message: " An error occured" });
   }
