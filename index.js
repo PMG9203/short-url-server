@@ -52,8 +52,7 @@ app.post("/create", async (req, res) => {
 
           // CREATE shortUrl
           const shortUrl =
-            "https://short-url-PIERRE-MARIE-GILLERON.herokuapp.com/" +
-            randomString;
+            "https://short-url-pm-gilleron.herokuapp.com/" + randomString;
 
           // CREATE NEW Url
           const newUrl = new Url({
@@ -65,7 +64,7 @@ app.post("/create", async (req, res) => {
 
           //SAVE newURL
           await newUrl.save();
-          res.json(newUrl);
+          res.status(200).json(newUrl);
           break;
         } else {
           res.status(400).json({
@@ -95,6 +94,25 @@ app.get("/", async (req, res) => {
     return res.json(urls);
   } catch (error) {
     return res.status(400).json({ error: error.message });
+  }
+});
+
+// UPDATE URL & redirect
+app.post("/update", async (req, res) => {
+  try {
+    //obtenir la Bonne adresse
+    // const urlToRedirect = await Url.findOne({ _id: req.body.id });
+    // return res.json(urlToRedirect);
+    // // modifier le compteur de l'adresse
+    // urlToRedirect.counter = counter + 1;
+    // task.done = req.body.done;
+    // // sauvegarder le conteur modifié
+    // await urlToRedirect.save();
+    // return res.redirect(307, req.body.longUrl);
+    // return res.json("ok");
+    return res.redirect((status = 302), "http://google.fr");
+  } catch (error) {
+    return res.status(400).json({ message: " An error occured" });
   }
 });
 
