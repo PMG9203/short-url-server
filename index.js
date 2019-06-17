@@ -97,6 +97,25 @@ app.get("/", async (req, res) => {
   }
 });
 
+// UPDATE URL & redirect
+app.post("/update", async (req, res) => {
+  try {
+    //obtenir la Bonne adresse
+    const urlToRedirect = await Url.findOne({ _id: req.body.id });
+    return res.json(urlToRedirect);
+    // // modifier le compteur de l'adresse
+    // urlToRedirect.counter = counter + 1;
+    // task.done = req.body.done;
+    // // sauvegarder le conteur modifié
+    // await urlToRedirect.save();
+    // return res.redirect(307, req.body.longUrl);
+    // return res.json("ok");
+    // return res.redirect((status = 302), "http://google.fr");
+  } catch (error) {
+    return res.status(400).json({ message: " An error occured" });
+  }
+});
+
 const PORT = 3001;
 
 app.listen(process.env.PORT || PORT, () => {
