@@ -64,7 +64,7 @@ app.post("/create", async (req, res) => {
 
           //SAVE newURL
           await newUrl.save();
-          res.status(200).json(newUrl);
+          res.status(200).json("Votre lien à ete creer");
           break;
         } else {
           res.status(400).json({
