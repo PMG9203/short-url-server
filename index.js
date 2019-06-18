@@ -52,7 +52,7 @@ app.post("/create", async (req, res) => {
 
           // CREATE shortUrl
           const shortUrl =
-            "https://short-url-pm-gilleron.herokuapp.com/" + randomString;
+            "https://short-url-server-pm.herokuapp.com/" + randomString;
 
           // CREATE NEW Url
           const newUrl = new Url({
@@ -64,14 +64,9 @@ app.post("/create", async (req, res) => {
 
           //SAVE newURL
           await newUrl.save();
-          return res.status(200).json("Votre lien à ete creer");
+          return res.status(200).json("Short Url created");
         } else {
-          return res.status(400).json({
-            error: {
-              message: "ta mere"
-            }
-          });
-          // return res.status(400).json("Url already exists");
+          return res.status(400).json("Url already exists");
         }
       }
     } else {
