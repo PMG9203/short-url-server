@@ -117,7 +117,7 @@ app.post("/update", async (req, res) => {
   }
 });
 
-app.post("/:shortUrl", function(req, res) {
+app.get("/:shortUrl", function(req, res) {
   res.send("hello " + req.params.shortUrl);
 });
 
