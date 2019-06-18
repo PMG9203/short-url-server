@@ -64,19 +64,18 @@ app.post("/create", async (req, res) => {
 
           //SAVE newURL
           await newUrl.save();
-          res.status(200).json("Votre lien à ete creer");
-          break;
+          return res.status(200).json("Votre lien à ete creer");
         } else {
-          res.status(400).json({
+          return res.status(400).json({
             error: {
-              message: "Url already exists"
+              message: "ta mere"
             }
           });
-          break;
+          // return res.status(400).json("Url already exists");
         }
       }
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         error: {
           message: "Url is not a valid Url"
         }
