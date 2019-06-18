@@ -97,9 +97,10 @@ app.get("/", async (req, res) => {
   }
 });
 
-// UPDATE URL & redirect
+// UPDATE counter URL & redirect
 app.post("/update", async (req, res) => {
   try {
+    const longUrl = req.body.longUrl;
     //obtenir la Bonne adresse
     // const urlToRedirect = await Url.findOne({ _id: req.body.id });
     // return res.json(urlToRedirect);
@@ -110,10 +111,14 @@ app.post("/update", async (req, res) => {
     // await urlToRedirect.save();
     // return res.redirect(307, req.body.longUrl);
     // return res.json("ok");
-    return res.redirect((status = 302), "https://prod03.com");
+    return res.redirect((status = 302), "https://google.com");
   } catch (error) {
     return res.status(400).json({ message: " An error occured" });
   }
+});
+
+app.post("/:shortUrl", function(req, res) {
+  res.send("hello " + req.params.shortUrl);
 });
 
 const PORT = 3001;
