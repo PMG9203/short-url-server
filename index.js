@@ -97,28 +97,22 @@ app.get("/", async (req, res) => {
   }
 });
 
-// UPDATE counter URL & redirect
-app.post("/update", async (req, res) => {
-  try {
-    const longUrl = req.body.longUrl;
-    //obtenir la Bonne adresse
-    // const urlToRedirect = await Url.findOne({ _id: req.body.id });
-    // return res.json(urlToRedirect);
-    // // modifier le compteur de l'adresse
-    // urlToRedirect.counter = counter + 1;
-    // task.done = req.body.done;
-    // // sauvegarder le conteur modifié
-    // await urlToRedirect.save();
-    // return res.redirect(307, req.body.longUrl);
-    // return res.json("ok");
-    return res.redirect((status = 302), "https://google.com");
-  } catch (error) {
-    return res.status(400).json({ message: " An error occured" });
-  }
-});
+// COUNTER & REDIRECT
 
-app.get("/:shortUrl", function(req, res) {
-  res.send("hello " + req.params.shortUrl);
+app.get("/:codeUrl", async (req, res) => {
+  try {
+    //SEARCH LONGURL FROM CODEURL
+    const url = await Url.findOne({ codeUrl: req.params.codeUrl });
+    originUrl = url.longUrl;
+    // UPDATE COUNTER
+    url.counter = url.counter + 1;
+    // SAVE COUNTER
+    await url.save();
+    // REDIRECT LONGURL
+    return res.redirect((status = 302), originUrl);
+  } catch (error) {
+    return res.status(400).json({ message: "An error occured" });
+  }
 });
 
 const PORT = 3001;
